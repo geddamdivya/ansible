@@ -1,0 +1,64 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: update packages and install apache
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
+      notify:
+        - restart apache
+      when: ansible_os_family == "Debian" 
+    - name: Install apache on RedHat
+      yum:
+        name: httpd
+        state: present
+      notify:
+        - restart httpd
+      when: ansible_os_family == "RedHat"
+    - name: Install PHP
+      apt:
+        pkg:     
+          - php
+          - libapache2-mod-php
+          - php-mysql
+        state: present
+      notify:
+        - restart apache
+      when: ansible_os_family == "Debian"
+    - name: Install PHP on RedHat
+      dnf:
+        pkg:
+          - php
+          - php-mysqlnd
+          - php-mbstring
+          - php-opcache
+          - php-gd
+      notify: 
+        - restart httpd
+      when: ansible_os_family == "RedHat"
+    - name: download webpage
+      get_url:
+        url: https://github.com/geddamdivya/ansible/blob/main/info.php
+        dest: /var/www/html/info.php
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
+      when: ansible_os_family == "Debian"
+    - name: restart httpd
+      service:
+        name: httpd
+        enabled: yes
+        state: restarted
+      when: ansible_os_family == "RedHat"
+    
+    
+    
+
+
+  
+  
