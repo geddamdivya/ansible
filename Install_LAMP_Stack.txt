@@ -1,0 +1,62 @@
+1.Install Ansible:
+sudo apt update
+sudo apt install ansible
+2.setup the inventory file
+
+
+================================================
+Steps for Installing LAMP stack on Unbuntu machine.
+1.Installing Apache
+sudo apt update
+sudo apt install apache2
+2.Restart apache2
+sudo systemctl restart apache2
+3.Installing MYSQL(Will be installed later)
+sudo apt install mysql-server
+sudo mysql_secure_installation
+4.Installing PHP
+sudo apt install php libapache2-mod-php php-mysql
+5.Restart apache2
+sudo systemctl restart apache2
+6.create a file @ /var/www/html/info.php
+<?php
+  phpinfo();
+?>
+
+7.Installing ngnix
+sudo apt update
+sudo apt install nginx
+systemctl status nginx
+ - name: Installing ngnix server
+    apt:
+      name: ngnix
+      update_cache: yes
+      state: present
+=========================================================
+Steps for Installing LAMP stack on RedHat machine.
+1.Update RHEL 8 box
+ sudo dnf update
+2.Install Apache (HTTPD) on RHEL 8
+sudo dnf install httpd
+3.enable httpd service
+sudo systemctl enable httpd.service
+4.restart httpd service
+sudo systemctl restart httpd.service
+5.Install PHP 7.x on RHEL 8
+sudo dnf install php php-mysqlnd php-mbstring php-opcache php-gd
+6. restart httpd service
+sudo systemctl restart httpd.service
+7.Create a file named test.php in /var/www/html/ directory:
+sudo vi /var/www/html/test.php
+<?php
+   phpinfo();
+?>
+8.Install python
+dnf install python3
+
+Command to start/stop/restart httpd
+sudo systemctl start httpd.service ## <- Start Apache ##
+sudo systemctl stop httpd.service ## <- Stop Apache ##
+sudo systemctl restart httpd.service ## <- Restart Apache ##
+sudo systemctl reload httpd.service ## <- Reload Apache ##
+sudo systemctl status httpd.service ## <- Get status of Apache ##
