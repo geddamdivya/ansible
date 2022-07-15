@@ -16,7 +16,7 @@
         - Restart apache
     - name: download php webpage
       get_url:
-        url: https://github.com/geddamdivya/ansible/blob/main/info.php
+        url: https://raw.githubusercontent.com/geddamdivya/ansible/main/info.php
         dest: /var/www/html/info.php
   handlers:
     - name: Restart apache
