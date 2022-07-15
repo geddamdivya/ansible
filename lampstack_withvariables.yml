@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: install apache server
+      ansible.builtin.package:
+          name: "{{ pack_name }}"
+          state: present
+      notify:
+        - Restart apache
+    - name: install PHP
+      ansible.builtin.package:
+        name: "{{ php_packages }}"
+        state: present
+      notify:
+        - Restart apache
+    - name: download php webpage
+      get_url:
+        url: https://github.com/geddamdivya/ansible/blob/main/info.php
+        dest: /var/www/html/info.php
+  handlers:
+    - name: Restart apache
+      service:
+        name: "{{ pack_name }}"
+        enabled: yes
+        state: restarted
+  
